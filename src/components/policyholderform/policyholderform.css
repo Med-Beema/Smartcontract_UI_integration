@@ -1,0 +1,23 @@
+*{
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+.container {
+	width: 85%;
+	margin: auto;
+	height: 5vh;
+}
+.formWrapper{
+    margin-left: 40px;
+    margin-top: 20px;
+}
+label{
+    font-size: large;
+}
+.ta-formValue{
+    margin-left: 30px;
+}
+.ta-fieldset{
+    margin: 10px;
+}
