@@ -3,6 +3,7 @@ import Sidebar from "./components/sidebar/Sidebar";
 import PolicyHolderForm from "./components/policyholderform/PolicyHolderForm";
 import Policyholder  from "./artifacts/contracts/Policyholder.sol/Policyholder.json";
 import Deposit from "./components/deposit/deposit";
+import Details from "./components/Details/detail"
 import { useState } from 'react';
 import { ethers } from 'ethers';
 
@@ -10,8 +11,10 @@ import { ethers } from 'ethers';
 
 
 
+
 function App() {
     const [ipfsHash, setIpfsHash] = useState();
+    const [approve, setApprove] = useState();
   const contractAddress= "0x5FbDB2315678afecb367f032d93F642f64180aa3";
 
   async function requestAccount() {
@@ -47,13 +50,15 @@ function App() {
         console.log("address: ", address);
         try {          
           const fetchApprovalTransaction = await contract.approvedHolders(address);
-          console.log('approval : ', fetchApprovalTransaction)
+          console.log('approval : ', fetchApprovalTransaction);
+          setApprove(fetchApprovalTransaction.toString());
         } catch (err) {
           console.log("Error: ", err)
         }
          try {
           const fetchIpfsHashTransaction = await contract.holdersIpfsHash(address);
-          console.log('iphs : ', fetchIpfsHashTransaction)
+          console.log('ipfs : ', fetchIpfsHashTransaction);
+          setIpfsHash(fetchIpfsHashTransaction);
         } catch (err) {
            console.log("Error: ", err)
         }
@@ -66,13 +71,20 @@ function App() {
  
   return (
     <div className="App">
+
       { <Topbar/> }
       {/* <Sidebar /> */}
       {/* <PolicyHolderForm /> */}
+      {<Details ipfsHashProp={ipfsHash} approveProp = {approve}/>}
       
       { <Deposit ipfsHashProp = {ipfsHash} setipfsStateFunction={setIpfsHash} DepositCover ={depositCoverFees}/> }
-      <button onClick={fetchData}>Details</button>
+      
+      
+      
+      
+      
     </div>
+    
   );
 }
 
