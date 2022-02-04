@@ -14,12 +14,20 @@ async function main() {
   // await hre.run('compile');
 
   // We get the contract to deploy
-  const Policyholder = await hre.ethers.getContractFactory("Policyholder");
-  const policyholder = await Policyholder.deploy();
+  const InvestorToken = await hre.ethers.getContractFactory("InvestorToken");
+  const investorToken = await InvestorToken.deploy();
 
-  await policyholder.deployed();
+  await investorToken.deployed();
 
-  console.log("PolicyHolder deployed to:", policyholder.address);
+  console.log("Investor Token deployed to:", investorToken.address);
+
+  // Deploying insurance system
+  const InsuranceSystem = await hre.ethers.getContractFactory("InsuranceSystem");
+  const insuranceSystem = await InsuranceSystem.deploy(investorToken.address);
+
+  await insuranceSystem.deployed();
+
+  console.log ("Insurance system deployed to: ", insuranceSystem.address )
 }
 
 // We recommend this pattern to be able to use async/await everywhere

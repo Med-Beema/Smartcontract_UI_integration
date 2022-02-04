@@ -1,3 +1,9 @@
+import React from "react";
+import { BrowserRouter } from "react-router-dom";
+import Dashboard from "./components/layout/Dashboard";
+
+
+/*
 import Topbar from "./components/topbar/Topbar";
 import Sidebar from "./components/sidebar/Sidebar";
 import PolicyHolderForm from "./components/policyholderform/PolicyHolderForm";
@@ -6,16 +12,20 @@ import Deposit from "./components/deposit/deposit";
 import Details from "./components/Details/detail"
 import { useState } from 'react';
 import { ethers } from 'ethers';
+*/
 
-
+ 
 
 
 
 
 function App() {
+
+  /*
     const [ipfsHash, setIpfsHash] = useState();
     const [approve, setApprove] = useState();
-  const contractAddress= "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+  const tokenContractAddress= "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9";
+  const insuranceSystemContractAddress = "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707";
 
   async function requestAccount() {
     await window.ethereum.request({ method: 'eth_requestAccounts' });
@@ -66,27 +76,25 @@ function App() {
       } 
     }
 
-    
+*/
 
- 
+
+
+
+
+  
   return (
     <div className="App">
+      
+      <BrowserRouter>
+        <Dashboard />
+      </BrowserRouter>
+      
 
-      { <Topbar/> }
-      {/* <Sidebar /> */}
-      {/* <PolicyHolderForm /> */}
-      {<Details ipfsHashProp={ipfsHash} approveProp = {approve}/>}
-      
-      { <Deposit ipfsHashProp = {ipfsHash} setipfsStateFunction={setIpfsHash} DepositCover ={depositCoverFees}/> }
-      
-      
-      
       
       
     </div>
-    
   );
 }
 
 export default App;
-//

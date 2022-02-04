@@ -1,24 +1,21 @@
-import React from 'react';
+import React,{ useState } from "react";
 import { Button,Form,Container } from 'react-bootstrap';
 
 
-export default function Deposit(props) {
-  
+function Deposit() {
+  const [amount, setAmount] = useState(0);
   
   function handleSubmit(e){
     e.preventDefault();
-    console.log(props.ipfsHashProp);
-    props.DepositCover(props.ipfsHashProp);
-    
+    console.log(amount);
   }
-  
   return <div>
    
     <Container>
       <Form onSubmit={handleSubmit}>
         <Form.Group className="mb-3" controlId="formDeposit">
-          <Form.Label>IPFS Hash</Form.Label>          
-          <Form.Control size="lg" type="text" placeholder="0" onChange={(e)=>props.setipfsStateFunction(e.target.value)}/>          
+          <Form.Label>Amount</Form.Label>          
+          <Form.Control size="lg" type="text" placeholder="0" onChange={(e) => setAmount(e.target.value)}/>          
         </Form.Group>
         
         <Button variant="primary" type="submit">
@@ -26,5 +23,7 @@ export default function Deposit(props) {
         </Button>
       </Form>
     </Container>
-  </div>
+    
+  </div>;
 }
+export default Deposit;
