@@ -79,14 +79,15 @@ export default function ClaimAccessForm() {
       const contract = new ethers.Contract(insuranceContractAddress, InsuranceSystem.abi, signer);
       const address = signer.getAddress();
       console.log("address: ", address);
-      const transaction = await contract.submitPolicyHolder(ipfsUrl);
+      const transaction = await contract.submitClaim(ipfsUrl);
       await transaction.wait();
       console.log('Transaction : ', transaction);
       
       ///////checking data 
       console.log("checking:");
-      const readtransaction =  await contract.holdersDetailsIpfsHash(address);
+      const readtransaction =  await contract.PolicyholdersClaimDetails(1);
       console.log('ipfs hash:', readtransaction);
+      console.log('')
     }
    
  
@@ -170,8 +171,8 @@ export default function ClaimAccessForm() {
                 type="file"
                 name="documents"
                 onChange={handleFileChange}
-                multiple
-                accept="pdf/*"
+                //multiple
+                accept="image/*"
               />
             </Form.Group>
           </Col>

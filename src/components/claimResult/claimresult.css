@@ -1,0 +1,63 @@
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+}
+.acceptedResult {
+  font-size: "20px";
+  background: rgb(174, 240, 200);
+  color: rgb(30, 171, 137);
+  border-radius: 20px;
+  padding: auto 20px;
+  margin: auto 20px;
+  height: 2rem;
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  padding: 5px 10px;
+}
+.rejectedResult {
+  font-size: "20px";
+  background: rgb(238, 145, 145);
+  color: rgb(171, 30, 30);
+  border-radius: 20px;
+  padding: auto 20px;
+  margin: auto 20px;
+  height: 2rem;
+  font-weight: 600;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  padding: 5px 10px;
+}
+.textStyle {
+  font-size: 15px;
+  font-family: Open Sans, sans-serif;
+  font-weight: 600;
+  color: rgb(80, 80, 80);
+}
+.coverName {
+  font-size: 20px;
+  font-family: Open Sans, sans-serif;
+  font-weight: 600;
+  color: rgb(80, 80, 80);
+  align-content: center;
+  padding-top: 5px;
+}
+.Image {
+  border-radius: 50%;
+  width: 4rem;
+  height: 4rem;
+}
+.claimAccessors {
+  font-size: 22px;
+  font-family: Open Sans, sans-serif;
+  font-weight: 600;
+  color: rgb(80, 80, 80);
+  padding-top: 10px;
+}
+.progressBar {
+  padding-top: 20px;
+  margin-left: 150px;
+  width: 600px;
+}

@@ -40,12 +40,14 @@ mapping(address => bool) public voterHasVoted;
 //policyholder buy cover  FOR POLICYHOLDERS
 
 function submitPolicyHolder(string memory _holderDetailsipfsHash) public {
+    /////only once 
     
     holdersDetailsIpfsHash[msg.sender]=_holderDetailsipfsHash;
 }
 
 
 function depositCoverFees() public payable{
+    /////only once 
     bytes memory detailsIpfs = bytes(holdersDetailsIpfsHash[msg.sender]);
     require(detailsIpfs.length!=0 );
     require(msg.value == coverFees);

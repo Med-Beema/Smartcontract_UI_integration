@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Table } from "antd";
 import InsuranceSystem from '../artifacts/contracts/InsuranceSystem.sol/InsuranceSystem.json'
 import {ethers} from 'ethers';
+import { Link, Outlet } from "react-router-dom";
 
 
 export default function Claims() {
@@ -9,7 +10,8 @@ export default function Claims() {
   const [dataSource, setDataSource] = useState([]);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
-
+  const [tableData, setTableData] = useState([])
+  let data = [];
   /**
    * SMART CONTRACT Function
    
@@ -27,25 +29,36 @@ export default function Claims() {
       console.log({provider});
       const signer = provider.getSigner();
       const contract = new ethers.Contract(insuranceSystemContractAddress, InsuranceSystem.abi, provider);
-      const address = signer.getAddress();
+      const address = await signer.getAddress();
       console.log("address: ", address);
       let numberOfConst = await contract.claimID();
         console.log("claimId", numberOfConst)
-      try {          
+      try {    
+        
+        console.log('inside try')
         
         
-        for (let i=1; i<=numberOfConst; i++) {
+      for (let i=1; i<=numberOfConst; i++) {
+        console.log("Inside For loop")
           const fetchClaims = await contract.PolicyholdersClaimDetails(i);
-          data[i] =[{
+          console.log('fetch Claims', fetchClaims)
+          
+          data.push({
             id: i,
-          cover: fetchClaims.Claimer,
+          cover: fetchClaims[5],
            coverAmount: 45676788,
-          coverPeriod: "2021/02/09 - 2022/01/09",
-           status: fetchClaims.status,
+          coverPeriod: '1 year',
+           status: fetchClaims[2],
             
 
-          }]
+          })
+          console.log("data",data)
+          
       }
+      setTableData(data)
+      // console.log('data:', fetchClaims);
+      // console.log("3: ", fetchClaims[3])
+      
         
       } catch (err) {
         console.log("Error: ", err)
@@ -57,22 +70,29 @@ export default function Claims() {
 
   //////////////////////////////////
 
+  // useEffect(() => {
+  //   fetch()
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       setDataSource(data);
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //     })
+  //     .finally(() => {
+  //       setLoading(false);
+  //     });
+  //   // return () => {
+
+  //   // };
+  // }, []);
+
   useEffect(() => {
     fetchData()
-      .then((response) => response.json())
-      .then((data) => {
-        setDataSource(data);
-      })
-      .catch((err) => {
-        console.log(err);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-    // return () => {
-
-    // };
+      
   }, []);
+
+
 
   const columns = [
     {
@@ -115,11 +135,40 @@ export default function Claims() {
       key: "6",
       title: "ACTION",
       dataIndex: "",
-      render: () => <a href="#">View</a>,
+      render: (value,record) => (<Link
+        style={{ display: "block", margin: "1rem 0" }}
+        to={`/claims/${record.id}`}
+        key={record.id}
+      >View</Link>),
     },
   ];
-  let data = [
-    // {
+  
+  return (
+    <div>
+      
+      <header className="">
+     
+        <Table
+          loading={loading}
+          columns={columns}
+          dataSource={tableData}
+          pagination={{
+            current: page,
+            pageSize: pageSize,
+            onChange: (page, pageSize) => {
+              setPage(page);
+              setPageSize(pageSize);
+            },
+          }}
+        ></Table>
+        
+      </header>
+      <Outlet/>
+    </div>
+  );
+}
+
+   // {
     //   id: 1,
     //   cover: "John Brown",
     //   coverAmount: 45676788,
@@ -147,24 +196,3 @@ export default function Claims() {
     //   coverPeriod: "2021/02/09 - 2022/01/09",
     //   status: "Rejected",
     // },
-  ];
-  return (
-    <div>
-      <header className="">
-        <Table
-          loading={loading}
-          columns={columns}
-          dataSource={data}
-          pagination={{
-            current: page,
-            pageSize: pageSize,
-            onChange: (page, pageSize) => {
-              setPage(page);
-              setPageSize(pageSize);
-            },
-          }}
-        ></Table>
-      </header>
-    </div>
-  );
-}

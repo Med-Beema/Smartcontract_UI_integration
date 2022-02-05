@@ -1,0 +1,43 @@
+.site-card-border-less-wrapper {
+    padding: 30px;
+    background: #ececec;
+  }
+  .card-title {
+    width: "auto";
+    text-align: center;
+    align-items: center;
+  }
+  
+  .site-card-wrapper {
+    padding-top: 50px;
+  }
+  .ant-card.card-Wrapper {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 5px 8px 24px 5px rgba(208, 216, 243, 0.6);
+  }
+  .coverInfo {
+    padding-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;
+  }
+  .cost {
+    padding-top: 10px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 20px;
+  }
+  .label {
+    font-family: sans-serif;
+  }
+  .imageSection {
+    display: flex;
+    justify-content: space-around;
+  }
+  .covername {
+    padding-top: 10px;
+    font-weight: 500;
+    font-size: 25px;
+    font-family: monospace;
+  }

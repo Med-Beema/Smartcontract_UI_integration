@@ -1,13 +1,19 @@
-import React, { useState } from "react";
+import React,{ useState, useEffect } from "react";
+
 import "./policyholderform.css";
 import { Container, Form, Button, Row, Col } from "react-bootstrap";
+import { Descriptions, Spin } from "antd";
+
 import axios from "axios";
 import InsuranceSystem from '../artifacts/contracts/InsuranceSystem.sol/InsuranceSystem.json'
 import {ethers} from 'ethers';
+import { setDefaultLocale } from "react-datepicker";
 
 
 export default function PolicyHolderForm() {
-  
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [url, setUrl] = useState('')
+  const [data, setData] = useState({})
    const [validated, setValidated] = useState(false);
   const [loading, setLoading] = useState(false);
   const [values, setValues] = useState({
@@ -47,6 +53,7 @@ export default function PolicyHolderForm() {
               ...prevState,
               [e.target.name]: res.data.image,
             }));
+            setLoading(false);
           }
         });
       setLoading(false);
@@ -64,7 +71,6 @@ export default function PolicyHolderForm() {
         .post("http://localhost:5000/api/data", values)
         .then((response) => {
           console.log(response);
-          
           mapAddressToDetailsHash(response.data.image)
           //response.data.image
         })
@@ -74,6 +80,24 @@ export default function PolicyHolderForm() {
     }
     setValidated(true);
   }
+  useEffect(() => {
+    if(url!= ''&& url!=undefined){
+  axios
+    .get(url, values)
+    .then((response) => {
+      console.log(response);
+      setData(response.data)
+      //response.data.image
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+    setIsSubmitted(true);
+  }
+      
+  }, [url]);
+
+  
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
   /**
@@ -102,14 +126,24 @@ export default function PolicyHolderForm() {
       console.log("checking:");
       const readtransaction =  await contract.holdersDetailsIpfsHash(address);
       console.log('ipfs hash:', readtransaction);
+     
+      
+      console.log("checking", url)
+      setUrl(ipfsUrl)
+    
+    
       
     } 
   
 
   }
 ////////////////////////////////////////////////////////////////////////////////////////
+
+
   return (
     <Container>
+      {!isSubmitted && (
+        <Spin size="large" spinning={loading}>
       <Form
         noValidate
         validated={validated}
@@ -310,7 +344,73 @@ export default function PolicyHolderForm() {
           />
         </Form.Group>
         <Button variant="primary" onClick={handleSubmit}>Submit</Button>
-      </Form>
+         </Form>
+      </Spin>
+      )}
+    {isSubmitted && (
+        <div>
+          <Descriptions
+            bordered
+            column={{ xxl: 3, xl: 3, lg: 3, md: 3, sm: 2, xs: 1 }}
+            contentStyle={{ backgroundColor: "#fff" }}
+            labelStyle={{ backgroundColor: "#eee", fontWeight: "bold" }}
+          >
+            <Descriptions.Item label="Name:" span={2}>
+              {data.name}
+            </Descriptions.Item>
+
+            <Descriptions.Item label="Date of Birth" span={1}>
+            {data.dob}
+            </Descriptions.Item>
+            <Descriptions.Item label="Father's Name" span={2}>
+            {data.fatherName}
+            </Descriptions.Item>
+            <Descriptions.Item label="Contact Number" span={1}>
+               <span>{data.contactNum}</span>
+            </Descriptions.Item>
+
+            <Descriptions.Item label="Address" span={2}>
+            {data["permanentAddress"]}
+            </Descriptions.Item>
+            <Descriptions.Item label="Occupation" span={2}>
+            {data.occupation}
+            </Descriptions.Item>
+            <Descriptions.Item label="Photo" span={3}>
+              <img
+                src={data.photo}
+                height="200"
+                alt=""
+              ></img>
+            </Descriptions.Item>
+            <Descriptions.Item label="ID Type" span={2}>
+            {data.idType}
+            </Descriptions.Item>
+            <Descriptions.Item label="Issued Date" span={2}>
+            {data.issuedDate}
+            </Descriptions.Item>
+            <Descriptions.Item label="Identification Number" span={2}>
+            {data.identificationNum}
+            </Descriptions.Item>
+            <Descriptions.Item label="Issued Place" span={2}>
+            {data.issuePlace}
+            </Descriptions.Item>
+            <Descriptions.Item label="Identification Photo" span={3}>
+              <img
+                src={data.identificationPhoto}
+                height="200"
+                alt=""
+              ></img>
+            </Descriptions.Item>
+            <Descriptions.Item label="Documents Submitted" span={3}>
+              <img
+                src={data.signature}
+                height="200"
+                alt=""
+              ></img>
+            </Descriptions.Item>
+          </Descriptions>
+        </div>
+      )}
     </Container>
   );
 }
