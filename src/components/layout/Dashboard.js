@@ -7,6 +7,7 @@ import PolicyHolderForm from "./../policyholderform/PolicyHolderForm";
 import ClaimAccessForm from "./../claimaccess/ClaimAccessForm";
 import Swap from "./../swap/swap";
 import Claims from "../claims/Claims";
+import ClaimResult from './../claimResult/ClaimResult'
 
 import "antd/dist/antd.css";
 import "./dashboard.css";
@@ -51,15 +52,7 @@ export default function Dashboard() {
       >
         <div className="logo">MedBeema</div>
         <Menu className="ta-menu" defaultSelectedKeys={["1"]} mode="inline">
-          <Menu.Item key="1">
-            <Link
-              to="/"
-              style={{ color: "inherit", textDecoration: "inherit" }}
-            >
-              Buy Cover
-            </Link>
-          </Menu.Item>
-          <Menu.Item key="2">
+        <Menu.Item key="1">
             <Link
               to="/profileInfo"
               style={{ color: "inherit", textDecoration: "inherit" }}
@@ -67,6 +60,15 @@ export default function Dashboard() {
               Profile Info
             </Link>
           </Menu.Item>
+          <Menu.Item key="2">
+            <Link
+              to="/"
+              style={{ color: "inherit", textDecoration: "inherit" }}
+            >
+              Buy Cover
+            </Link>
+          </Menu.Item>
+          
           <Menu.Item key="3">
             <Link
               to="/claimaccess"
@@ -91,17 +93,7 @@ export default function Dashboard() {
               Claims
             </Link>
           </Menu.Item>
-          <Menu.Item key="7">
-            <Link
-              to="/claimDetails"
-              style={{
-                color: "inherit",
-                textDecoration: "inherit",
-              }}
-            >
-              Claim Details
-            </Link>
-          </Menu.Item>
+          
         </Menu>
       </Sider>
 
@@ -265,16 +257,16 @@ export default function Dashboard() {
                 path="/claims"
                 element={<Claims isWalletConnected={isWalletConnected} />}
               > <Route path=":claimid" element={<ClaimDetails />} /> 
+              <Route path='results/:claimid' element={<ClaimResult/>}/>
+              
               </Route>
               <Route
                 path="/swap"
                 element={<Swap isWalletConnected={isWalletConnected} />}
               />
-              <Route
-                path="/claimDetails"
-                element={<ClaimDetails isWalletConnected={isWalletConnected} id ={1}/>}
-              />      
+                   
                     </Routes>
+              
           </div>
         </Content>
       </Layout>

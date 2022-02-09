@@ -9,6 +9,7 @@ export default function Claims() {
   const [loading, setLoading] = useState(false);
   const [dataSource, setDataSource] = useState([]);
   const [page, setPage] = useState(1);
+  const [status, setStatus] = useState('')
   const [pageSize, setPageSize] = useState(10);
   const [tableData, setTableData] = useState([])
   let data = [];
@@ -42,7 +43,7 @@ export default function Claims() {
         console.log("Inside For loop")
           const fetchClaims = await contract.PolicyholdersClaimDetails(i);
           console.log('fetch Claims', fetchClaims)
-          
+                    
           data.push({
             id: i,
           cover: fetchClaims[5],
@@ -135,11 +136,17 @@ export default function Claims() {
       key: "6",
       title: "ACTION",
       dataIndex: "",
-      render: (value,record) => (<Link
-        style={{ display: "block", margin: "1rem 0" }}
-        to={`/claims/${record.id}`}
-        key={record.id}
-      >View</Link>),
+      render: (value,record) => (
+      <div><Link
+      style={{ display: "block", margin: "1rem 0" }}
+      to={`/claims/${record.id}`}
+      key={record.id}
+    >View</Link>
+     <Link
+    style={{ display: "block", margin: "1rem 0" }}
+    to={`/claims/results/${record.id}`}
+    key={record.id}
+  >Results</Link></div>), 
     },
   ];
   

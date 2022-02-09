@@ -77,7 +77,7 @@ function getClaimAmount(uint _claimId) public AfterVotingPeriod(_claimId) isPoli
 function depostCapital() public payable {
         require(msg.value > coverFees);
         investedTokens[msg.sender]+=msg.value;
-        investorToken.transferToken(msg.sender, msg.value);
+        investorToken.transferToken(msg.sender, msg.value*100);
 
 
     }

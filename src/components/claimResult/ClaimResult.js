@@ -1,8 +1,45 @@
 import React from "react";
 import { Card, Row, Col, Tooltip, Progress } from "antd";
 import "./claimresult.css";
+import {useParams } from "react-router-dom";
+import InsuranceSystem from '../artifacts/contracts/InsuranceSystem.sol/InsuranceSystem.json'
+import {ethers} from 'ethers';
+export default function ClaimResult(props) {
+  let params = useParams();
+  const claimId = params.claimid??props.id
+  /**
+   * SMART CONTRACT Function
+   
+   */
 
-export default function ClaimResult() {
+   async function requestAccount() {
+    await window.ethereum.request({ method: 'eth_requestAccounts' });
+  }
+    const insuranceSystemContractAddress="0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512";
+    const tokenContractAddress ="0x5FbDB2315678afecb367f032d93F642f64180aa3"
+   async function fetchData(){
+    if (typeof window.ethereum !== 'undefined') {
+      await requestAccount();
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      console.log({provider});
+      const signer = provider.getSigner();
+      const contract = new ethers.Contract(insuranceSystemContractAddress, InsuranceSystem.abi, provider);
+      const address = await signer.getAddress();
+      console.log("address: ", address);
+      let numberOfConst = await contract.claimID();
+        console.log("claimId", numberOfConst)
+        const transaction = await contract.PolicyholdersClaimDetails(claimId)
+
+        const result = await contract.VotingResults(transaction[2]);
+        console.log(result);
+    }
+  }
+      
+        
+        
+      
+     
+  /////////////////////////////////////////////////////////////////////////////////////////////////////////////
   return (
     <div>
       <Card style={{ width: "auto", height: "auto" }}>
@@ -18,8 +55,7 @@ export default function ClaimResult() {
             Status
           </label>
           <div className="acceptedResult">Accepted</div>
-          <div className="rejectedResult">Rejected</div>
-        </div>
+            </div>
         <Row style={{ padding: "20px 10px" }}>
           <Col span={8}>
             <Row>
@@ -58,7 +94,7 @@ export default function ClaimResult() {
             </Row>
           </Col>
         </Row>
-        <Row className="claimAccessors">Claim Accessors</Row>
+       
         <Row className="progressBar">
           <Tooltip title="3 done / 3 in progress / 4 to do">
             <Progress

@@ -83,7 +83,7 @@ export default function Buycover() {
                 </div>
                 <div className="cost">
                   <label className="label">Cost</label>
-                  <span>1000</span>
+                  <span>1 ether</span>
                 </div>
                 <div>
                   <button
